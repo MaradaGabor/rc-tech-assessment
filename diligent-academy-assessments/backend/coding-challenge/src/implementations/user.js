@@ -1,21 +1,30 @@
 export class User {
-    constructor() {
-        this.books = [];
-    }
+  constructor() {
+    this.books = [];
+  }
 
-    borrow(book, library) {
-        throw new Error('Not implemented');
-    }
+  borrow(book, library) {
+    if (!library.getBooks().includes(book)) return false;
 
-    hasBook(book) {
-        throw new Error('Not implemented');
-    }
+    library.removeBook(book);
+    this.books.push(book);
+    return true;
+  }
 
-    return(book, library) {
-        throw new Error('Not implemented');
-    }
+  hasBook(book) {
+    return this.books.includes(book);
+  }
 
-    getBookNames() {
-        throw new Error('Not implemented');
-    }
+  return(book, library) {
+    if (!this.hasBook(book)) return false;
+
+    const returnBookIndex = this.books.indexOf(book);
+    this.books.splice(returnBookIndex, 1);
+    library.addBook(book);
+    return true;
+  }
+
+  getBookNames() {
+    return this.books.map((book) => book.name);
+  }
 }
